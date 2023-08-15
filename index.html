@@ -168,7 +168,8 @@
           fetch('https://addmessage-pkcmkzbaka-uc.a.run.app?email=' + this.email + '&phone=' + this.phone + '&name=' + this.name + '&message=' + this.message, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify(payload)
           })
