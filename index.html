@@ -165,13 +165,12 @@
 
           // Perform form submission logic here
           // For demonstration purposes, simulate sending the payload to the "/contact" API endpoint
-          //fetch('https://addmessage-pkcmkzbaka-uc.a.run.app?email=' + this.email + '&phone=' + this.phone + '&name=' + this.name + '&message=' + this.message, {
-          fetch('https://us-central1-trucksite-30ec4.cloudfunctions.net/addmessage?email=' + this.email + '&phone=' + this.phone + '&name=' + this.name + '&message=' + this.message, {
+          fetch('https://addmessage-pkcmkzbaka-uc.a.run.app?email=' + this.email + '&phone=' + this.phone + '&name=' + this.name + '&message=' + this.message, {
+          //fetch('https://us-central1-trucksite-30ec4.cloudfunctions.net/addmessage?email=' + this.email + '&phone=' + this.phone + '&name=' + this.name + '&message=' + this.message, {
             method: 'GET',
-            // headers: {
-            //   'Content-Type': 'application/json',
-            //   'Access-Control-Allow-Origin': '*'
-            // },
+            headers: {
+              'Access-Control-Allow-Origin': '*'
+            },
             // body: JSON.stringify(payload)
           })
             .then(response => {
