@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Truck Logistics Company</title>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      overflow-y: scroll;
+      margin: 0;
+      padding: 0;
+    }
+    
+    section {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .text-box {
+      background-color: rgba(0, 128, 0, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+    }
+    
+    #app {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <section style="background-image: url('truck2.jpeg');">
+      <div class="jumbotron">
+        <div class="text-box">
+          <h1 class="display-4">Welcome to our Truck Logistics Company</h1>
+          <p class="lead">Efficient and reliable transportation solutions</p>
+          <button class="btn btn-primary btn-lg" @click="scrollToContact">Contact Now</button>
+          <button class="btn btn-secondary btn-lg" @click="startVideoCall">Start Video Call</button>
+        </div>
+      </div>
+    </section>
+
+    <section style="background-image: url('truck1.jpeg');">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="text-box">
+              <h2>About Us</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus ante sit amet lorem consectetur,
+                sit amet bibendum ipsum finibus. Nulla facilisi.</p>
+            </div>
+          </div>
+          <div class="col-md-6"></div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background-image: url('truck3.jpeg');">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6"></div>
+          <div class="col-md-6">
+            <div class="text-box">
+              <h2>Services</h2>
+              <ul>
+                <li>Transportation of goods</li>
+                <li>Logistics management</li>
+                <li>Warehousing</li>
+                <li>Supply chain solutions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" style="background-image: url('truck2.jpeg');">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="text-box">
+              <h2>Contact Us</h2>
+              <form class="contact-form" @submit.prevent="submitForm">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" v-model="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" class="form-control" id="email" v-model="email" placeholder="Your-email@company" required>
+                </div>
+                <div class="form-group">
+                  <label for="phoneNumber">Phone</label>
+                  <input type="text" class="form-control phoneNumber" id="phoneNumber" v-model="phone" placeholder="Phone number (optional)">
+                </div>
+                <div class="form-group">
+                  <label for="message">Message</label>
+                  <textarea class="form-control" id="message" rows="5" v-model="message" placeholder="Memo (optional)"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="thankYouModal" tabindex="-1" role="dialog" aria-labelledby="thankYouModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="thankYouModalLabel">Thank You</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Thank you for contacting us. Someone will contact you shortly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
+      },
+      methods: {
+        scrollToContact() {
+          const contactSection = document.getElementById('contact');
+          contactSection.scrollIntoView({ behavior: 'smooth' });
+        },
+        startVideoCall() {
+          // Implement start video call functionality
+        },
+        submitForm() {
+          // Prepare the payload
+          const payload = {
+            name: this.name,
+            email: this.email,
+            phone: this.phone,
+            message: this.message
+          };
+
+          // Perform form submission logic here
+          // For demonstration purposes, simulate sending the payload to the "/contact" API endpoint
+          fetch('https://addmessage-pkcmkzbaka-uc.a.run.app?email=' + this.email + '&phone=' + this.phone + '&name=' + this.name + '&message=' + this.message, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          })
+            .then(response => {
+              if (response.ok) {
+                this.name = '';
+                this.email = '';
+                this.phone = '';
+                this.message = '';
+                $('#thankYouModal').modal('show');
+                window.scrollTo(0, 0);
+              } else {
+                throw new Error('Error submitting the form');
+              }
+            })
+            .catch(error => {
+              console.error(error);
+              // Handle the error appropriately
+            });
+          
+          setTimeout(() => {
+            this.name = '';
+            this.email = '';
+            this.phone = '';
+            this.message = '';
+            $('#thankYouModal').modal('show');
+            window.scrollTo(0, 0);
+          }, 200);
+        },
+        closeModal() {
+          $('#thankYouModal').modal('hide');
+        }
+      }
+    });
+
+    $(".phoneNumber").text(function(i, text) {
+      text = text.replace(/(\d\d\d)(\d\d\d)(\d\d\d\d)/, "$1-$2-$3");
+      return text;
+    });
+  </script>
+</body>
+
+</html>
